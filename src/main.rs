@@ -1,5 +1,5 @@
 use amethyst::{
-    assets::{AssetStorage, Handle, Loader, Processor},
+    assets::{AssetStorage, Loader, Processor},
     core::transform::{Transform, TransformBundle},
     ecs::prelude::{ReadExpect, Resources, SystemData},
     prelude::*,
@@ -14,12 +14,15 @@ use amethyst::{
             hal::{format::Format, image},
         },
         types::DefaultBackend,
-        Camera, GraphCreator, ImageFormat, RenderingSystem, SpriteSheet, SpriteSheetFormat,
-        Texture,
+        Camera, GraphCreator, ImageFormat, RenderingSystem, SpriteRender, SpriteSheet,
+        SpriteSheetFormat, Texture,
     },
     utils::application_root_dir,
     window::{ScreenDimensions, Window, WindowBundle},
 };
+
+static WIDTH: u32 = 800;
+static HEIGHT: u32 = 600;
 
 struct MyState;
 
@@ -29,8 +32,8 @@ impl SimpleState for MyState {
 
         init_camera(world);
 
-        // TODO(happens): Add entity for this
-        let _spritesheet = load_sprites(world);
+        let sprites = load_sprites(world);
+        init_sprites(world, &sprites);
     }
 }
 
@@ -45,7 +48,6 @@ fn main() -> amethyst::Result<()> {
     let render_graph = RenderGraph::default();
     let render_system = RenderingSystem::<DefaultBackend, _>::new(render_graph);
 
-    // TODO(happens): Add UI example
     let game_data = GameDataBuilder::default()
         .with_bundle(WindowBundle::from_config_path(display_config))?
         .with_bundle(TransformBundle::new())?
@@ -64,22 +66,21 @@ fn main() -> amethyst::Result<()> {
 
 fn init_camera(world: &mut World) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(100., 100., 1.);
+    transform.set_translation_xyz(WIDTH as f32 * 0.5, HEIGHT as f32 * 0.5, 1.);
 
     world
         .create_entity()
-        .with(Camera::standard_2d(200., 200.))
+        .with(Camera::standard_2d(WIDTH as f32, HEIGHT as f32))
         .with(transform)
         .build();
 }
 
-fn load_sprites(world: &mut World) -> Handle<SpriteSheet> {
-    // TODO(happens): Add sprite assets
+fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
     let texture_handle = {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "sprites/ayaya.png",
+            "sprites/logo.png",
             ImageFormat::default(),
             (),
             &texture_storage,
@@ -90,14 +91,34 @@ fn load_sprites(world: &mut World) -> Handle<SpriteSheet> {
         let loader = world.read_resource::<Loader>();
         let sheet_storage = world.read_resource::<AssetStorage<SpriteSheet>>();
         loader.load(
-            "sprites/ayaya.ron",
+            "sprites/logo.ron",
             SpriteSheetFormat(texture_handle),
             (),
             &sheet_storage,
         )
     };
 
-    sheet_handle
+    (0..3)
+        .map(|i| SpriteRender {
+            sprite_sheet: sheet_handle.clone(),
+            sprite_number: i,
+        })
+        .collect()
+}
+
+fn init_sprites(world: &mut World, sprites: &[SpriteRender]) {
+    for (i, sprite) in sprites.iter().enumerate() {
+        let x = (i as f32 - 1.) * 100. + WIDTH as f32 * 0.5;
+        let y = (i as f32 - 1.) * 100. + HEIGHT as f32 * 0.5;
+        let mut transform = Transform::default();
+        transform.set_translation_xyz(x, y, 0.);
+
+        world
+            .create_entity()
+            .with(sprite.clone())
+            .with(transform)
+            .build();
+    }
 }
 
 // TODO(happens): Can we provide this with a few parameters,

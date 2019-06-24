@@ -1,11 +1,12 @@
 [package]
-name = "amethyst-cli-starter-2d"
+name = "amethyst-starter-2d"
 version = "0.1.0"
-authors = []
+authors = ["Hilmar Wiegand <me@hwgnd.de>"]
 edition = "2018"
 
 [dependencies]
 amethyst = "0.11.0"
+log = { version = "0.4.6", features = ["serde"] }
 
 [features]
 default = ["vulkan"]

@@ -1,26 +1,66 @@
-# amethyst-cli-starter-2d
+<p align="center">
+  <a href="https://amethyst.rs">
+    <img
+        alt="Amethyst"
+        src="https://amethyst.rs/brand/logo-standard.svg"
+        width="60"
+    />
+  </a>
+</p>
+<h1 align="center">
+  Amethyst 2D Starter
+</h1>
 
-## How to run
+This project template will get you from 0 to drawing something on the screen in no time. If you're looking for a more in-depth introduction to the engine, please have a look at [our book](https://book.amethyst.rs/stable/)!
 
-To run the game, use
+## Quickstart
 
+- Clone the repository
+
+```bash
+git clone https://github.com/amethyst/amethyst-starter-2d.git
+cd amethyst-starter-2d
 ```
-cargo run --features "vulkan"
+
+- Build and run the project
+
+```bash
+cargo run
 ```
 
-on Windows and Linux, and
+#### For Mac Users
 
-```
-cargo run --features "metal"
-```
+This starter uses vulkan as a renderer by default. You'll want to change the backend to use `metal`, which can be done by opening the `Cargo.toml` file and changing
 
-on macOS.
-
-For building without any graphics backend, you can use
-
-```
-cargo run --features "empty"
+```toml
+[features]
+default = ["vulkan"]
 ```
 
-but be aware that as soon as you need any rendering you won't be able to run your game when using
-the `empty` feature.
+to
+
+```toml
+[features]
+default = ["metal"]
+```
+
+#### For Linux Users
+
+You might need to install some dependencies. Please refer to [this section](https://github.com/amethyst/amethyst#dependencies) of the README for more details.
+
+## Features
+
+This project contains the minimum amount of code needed to draw sprites to the screen. Here's a small summary of what you'll find in the source files:
+
+- `resources/display_config.ron`  
+  Contains the window configuration (size, title).
+
+- `src/main.rs`  
+  Creates the render graph, adds the required bundles, builds the game data with our own state and finally, starts the game's main event loop.
+
+- `src/render.rs`  
+  Configures the RenderGraph, which defines draw passes, color formats and so on.
+
+- `src/state.rs`  
+  Implements the main game state. In the `on_start` hook, the camera is initialized, and the sprites that will be drawn are loaded and their entities created.  
+   In the `handle_event` hook, we print any keys that were pressed and close the window if the user presses escape or the OS requests that we quit.

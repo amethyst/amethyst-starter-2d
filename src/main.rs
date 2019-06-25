@@ -2,7 +2,10 @@ use amethyst::{
     assets::Processor,
     core::transform::TransformBundle,
     prelude::*,
-    renderer::{types::DefaultBackend, RenderingSystem, SpriteSheet},
+    renderer::{
+        sprite_visibility::SpriteVisibilitySortingSystem, types::DefaultBackend, RenderingSystem,
+        SpriteSheet,
+    },
     utils::application_root_dir,
     window::WindowBundle,
 };
@@ -24,6 +27,11 @@ fn main() -> amethyst::Result<()> {
     let game_data = GameDataBuilder::default()
         .with_bundle(WindowBundle::from_config_path(display_config))?
         .with_bundle(TransformBundle::new())?
+        .with(
+            SpriteVisibilitySortingSystem::new(),
+            "sprite_visibility_system",
+            &["transform_system"],
+        )
         .with(
             Processor::<SpriteSheet>::new(),
             "sprite_sheet_processor",

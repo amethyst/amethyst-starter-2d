@@ -1,7 +1,7 @@
 use amethyst::{
     ecs::prelude::{ReadExpect, Resources, SystemData},
     renderer::{
-        pass::DrawFlat2DDesc,
+        pass::DrawFlat2DTransparentDesc,
         rendy::{
             factory::Factory,
             graph::{
@@ -75,7 +75,8 @@ impl GraphCreator<DefaultBackend> for RenderGraph {
         // Add additional draw groups here for things like UI
         let pass = builder.add_node(
             SubpassBuilder::new()
-                .with_group(DrawFlat2DDesc::new().builder()) // Draw sprites
+                // Draw sprites with transparency
+                .with_group(DrawFlat2DTransparentDesc::new().builder())
                 .with_color(color)
                 .with_depth_stencil(depth)
                 .into_pass(),

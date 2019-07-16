@@ -1,7 +1,7 @@
 use amethyst::{
     ecs::prelude::{ReadExpect, Resources, SystemData},
     renderer::{
-        pass::DrawFlat2DTransparentDesc,
+        pass::{DrawFlat2DDesc, DrawFlat2DTransparentDesc},
         rendy::{
             factory::Factory,
             graph::{
@@ -73,7 +73,16 @@ impl GraphCreator<DefaultBackend> for RenderGraph {
         let depth = builder.create_image(window_kind, 1, Format::D32Sfloat, Some(clear_depth));
 
         // Add additional draw groups here for things like UI
-        let pass = builder.add_node(
+        let opaque = builder.add_node(
+            SubpassBuilder::new()
+                // Draw sprites with flat subpass
+                .with_group(DrawFlat2DDesc::new().builder())
+                .with_color(color)
+                .with_depth_stencil(depth)
+                .into_pass(),
+        );
+
+        let transparent = builder.add_node(
             SubpassBuilder::new()
                 // Draw sprites with transparency
                 .with_group(DrawFlat2DTransparentDesc::new().builder())
@@ -83,8 +92,11 @@ impl GraphCreator<DefaultBackend> for RenderGraph {
         );
 
         // Render the result to the surface
-        let present = PresentNode::builder(factory, surface, color).with_dependency(pass);
-        builder.add_node(present);
+        let _present = builder.add_node(
+            PresentNode::builder(factory, surface, color)
+                .with_dependency(opaque)
+                .with_dependency(transparent),
+        );
 
         builder
     }

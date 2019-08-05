@@ -58,9 +58,6 @@ This project contains the minimum amount of code needed to draw sprites to the s
 - `src/main.rs`  
   Creates the render graph, adds the required bundles, builds the game data with our own state and finally, starts the game's main event loop.
 
-- `src/render.rs`  
-  Configures the RenderGraph, which defines draw passes, color formats and so on.
-
 - `src/state.rs`  
   Implements the main game state. In the `on_start` hook, the camera is initialized, and the sprites that will be drawn are loaded and their entities created.  
    In the `handle_event` hook, we print any keys that were pressed and close the window if the user presses escape or the OS requests that we quit.

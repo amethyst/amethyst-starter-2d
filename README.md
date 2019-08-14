@@ -48,6 +48,11 @@ default = ["metal"]
 
 You might need to install some dependencies. Please refer to [this section](https://github.com/amethyst/amethyst#dependencies) of the README for more details.
 
+#### For OSX Users
+
+If using OSX and Metal you will require full XCode installed from the Appstore in order to compile metal shaders.
+After install you may be required to run this command `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer` [reference gfx-rs issue](https://github.com/gfx-rs/gfx/issues/2472)
+
 ## Features
 
 This project contains the minimum amount of code needed to draw sprites to the screen. Here's a small summary of what you'll find in the source files:

@@ -44,14 +44,12 @@ to
 default = ["metal"]
 ```
 
+If using OSX and Metal you will require full XCode installed from the Appstore in order to compile metal shaders.
+After install you may be required to run this command `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer` [reference gfx-rs issue](https://github.com/gfx-rs/gfx/issues/2472)
+
 #### For Linux Users
 
 You might need to install some dependencies. Please refer to [this section](https://github.com/amethyst/amethyst#dependencies) of the README for more details.
-
-#### For OSX Users
-
-If using OSX and Metal you will require full XCode installed from the Appstore in order to compile metal shaders.
-After install you may be required to run this command `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer` [reference gfx-rs issue](https://github.com/gfx-rs/gfx/issues/2472)
 
 ## Features
 

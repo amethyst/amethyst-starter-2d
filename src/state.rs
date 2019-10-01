@@ -21,7 +21,7 @@ impl SimpleState for MyState {
         // Get the screen dimensions so we can initialize the camera and
         // place our sprites correctly later. We'll clone this since we'll
         // pass the world mutably to the following functions.
-        let dimensions = world.read_resource::<ScreenDimensions>().clone();
+        let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
 
         // Place the camera
         init_camera(world, &dimensions);

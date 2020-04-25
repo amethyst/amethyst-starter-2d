@@ -1,7 +1,7 @@
 [package]
 name = "amethyst-starter-2d"
 version = "0.1.0"
-authors = ["Hilmar Wiegand <me@hwgnd.de>"]
+authors = ["Walker"]
 edition = "2018"
 
 [dependencies]
@@ -9,7 +9,7 @@ amethyst = "0.15.0"
 log = { version = "0.4.8", features = ["serde"] }
 
 [features]
-# default = ["metal"]
+default = ["metal"]
 empty = ["amethyst/empty"]
 metal = ["amethyst/metal"]
 vulkan = ["amethyst/vulkan"]

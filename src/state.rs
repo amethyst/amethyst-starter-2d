@@ -7,7 +7,10 @@ use amethyst::{
     window::ScreenDimensions,
 };
 
+use crate::components::Map;
+
 use log::info;
+
 
 pub struct MyState;
 
@@ -78,7 +81,7 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
         let loader = world.read_resource::<Loader>();
         let texture_storage = world.read_resource::<AssetStorage<Texture>>();
         loader.load(
-            "sprites/logo.png",
+            "sprites/GodenRod_City.png",
             ImageFormat::default(),
             (),
             &texture_storage,
@@ -91,7 +94,7 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
         let loader = world.read_resource::<Loader>();
         let sheet_storage = world.read_resource::<AssetStorage<SpriteSheet>>();
         loader.load(
-            "sprites/logo.ron",
+            "sprites/GodenRod_City.ron",
             SpriteSheetFormat(texture_handle),
             (),
             &sheet_storage,
@@ -101,7 +104,7 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
     // Create our sprite renders. Each will have a handle to the texture
     // that it renders from. The handle is safe to clone, since it just
     // references the asset.
-    (0..3)
+    (0..1)
         .map(|i| SpriteRender {
             sprite_sheet: sheet_handle.clone(),
             sprite_number: i,
@@ -111,12 +114,16 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
 
 fn init_sprites(world: &mut World, sprites: &[SpriteRender], dimensions: &ScreenDimensions) {
     for (i, sprite) in sprites.iter().enumerate() {
-        // Center our sprites around the center of the window
-        let x = (i as f32 - 1.) * 100. + dimensions.width() * 0.5;
-        let y = (i as f32 - 1.) * 100. + dimensions.height() * 0.5;
+        let x = 0.0 + (dimensions.width() / 2.0);
+        let y = 0.0 + (640.0 / 2.0); 
+        
         let mut transform = Transform::default();
         transform.set_translation_xyz(x, y, 0.);
 
+        let map = Map { 
+            name: "GodenRod City".to_string() 
+        };
+        
         // Create an entity for each sprite and attach the `SpriteRender` as
         // well as the transform. If you want to add behaviour to your sprites,
         // you'll want to add a custom `Component` that will identify them, and a
@@ -125,6 +132,7 @@ fn init_sprites(world: &mut World, sprites: &[SpriteRender], dimensions: &Screen
             .create_entity()
             .with(sprite.clone())
             .with(transform)
+            .with(map)
             .build();
     }
 }

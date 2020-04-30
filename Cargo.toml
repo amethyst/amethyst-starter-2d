@@ -1,11 +1,11 @@
 [package]
 name = "amethyst-starter-2d"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Hilmar Wiegand <me@hwgnd.de>"]
 edition = "2018"
 
 [dependencies]
-amethyst = "0.13.0"
+amethyst = "0.15.0"
 log = { version = "0.4.8", features = ["serde"] }
 
 [features]
@@ -13,4 +13,3 @@ default = ["vulkan"]
 empty = ["amethyst/empty"]
 metal = ["amethyst/metal"]
 vulkan = ["amethyst/vulkan"]
-nightly = ["amethyst/nightly"]

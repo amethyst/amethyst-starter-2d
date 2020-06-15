@@ -9,12 +9,21 @@ use amethyst::{
 
 use log::info;
 
+/// A dummy game state that shows 3 sprites.
 pub struct MyState;
 
 impl SimpleState for MyState {
-    // On start will run when this state is initialized. For more
-    // state lifecycle hooks, see:
+    // Here are defined hooks for managing the life-cycle of the game state.
+    // 
+    // In this example, `on_start` is used for initializing entities 
+    // and `handle_state` for managing the state transitions.
+    // 
+    // For more state lifecycle hooks, see:
     // https://book.amethyst.rs/stable/concepts/state.html#life-cycle
+    
+    /// Initializes the states with:
+    /// - a camera centered in the middle of the screen.
+    /// - 3 sprites places around the center.
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
 
@@ -31,6 +40,9 @@ impl SimpleState for MyState {
         init_sprites(world, &sprites, &dimensions);
     }
 
+    /// Handles appearing events:
+    /// - It quits the game state when the close button is clicked or when the escape key is pressed,  
+    /// - It logs in the console any other key events.
     fn handle_event(
         &mut self,
         mut _data: StateData<'_, GameData<'_, '_>>,
@@ -57,9 +69,11 @@ impl SimpleState for MyState {
     }
 }
 
+/// Creates in the `world` a camera entity.
+///
+/// The `dimensions` are used to center the camera in the middle
+/// of the screen and to make it covers the entire screen.
 fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
-    // Center the camera in the middle of the screen, and let it cover
-    // the entire screen
     let mut transform = Transform::default();
     transform.set_translation_xyz(dimensions.width() * 0.5, dimensions.height() * 0.5, 1.);
 
@@ -70,6 +84,10 @@ fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
         .build();
 }
 
+/// Loads and splits the `logo.png` image asset into 3 sprites,
+/// which will then be assigned to entities for rendering them.
+///
+/// The provided `world` is used to retrieve the resource loader.
 fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
     // Load the texture for our sprites. We'll later need to
     // add a handle to this texture to our `SpriteRender`s, so
@@ -109,6 +127,8 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
         .collect()
 }
 
+/// Creates in the `world` an entity for each of the provided `sprites`.
+/// They are individually placed around the center of the screen.
 fn init_sprites(world: &mut World, sprites: &[SpriteRender], dimensions: &ScreenDimensions) {
     for (i, sprite) in sprites.iter().enumerate() {
         // Center our sprites around the center of the window

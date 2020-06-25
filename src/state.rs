@@ -13,7 +13,7 @@ use log::info;
 pub struct MyState;
 
 impl SimpleState for MyState {
-    // Here are defined hooks for managing the life-cycle of the game state.
+    // Here, we define hooks that will be called throughout the lifecycle of our game state.
     // 
     // In this example, `on_start` is used for initializing entities 
     // and `handle_state` for managing the state transitions.

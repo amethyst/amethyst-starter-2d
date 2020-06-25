@@ -127,7 +127,7 @@ fn load_sprites(world: &mut World) -> Vec<SpriteRender> {
         .collect()
 }
 
-/// Creates in the `world` an entity for each of the provided `sprites`.
+/// Creates an entity in the `world` for each of the provided `sprites`.
 /// They are individually placed around the center of the screen.
 fn init_sprites(world: &mut World, sprites: &[SpriteRender], dimensions: &ScreenDimensions) {
     for (i, sprite) in sprites.iter().enumerate() {

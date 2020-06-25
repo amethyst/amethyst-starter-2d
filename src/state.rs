@@ -69,10 +69,10 @@ impl SimpleState for MyState {
     }
 }
 
-/// Creates in the `world` a camera entity.
+/// Creates a camera entity in the `world`.
 ///
 /// The `dimensions` are used to center the camera in the middle
-/// of the screen and to make it covers the entire screen.
+/// of the screen, as well as make it cover the entire screen.
 fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
     let mut transform = Transform::default();
     transform.set_translation_xyz(dimensions.width() * 0.5, dimensions.height() * 0.5, 1.);

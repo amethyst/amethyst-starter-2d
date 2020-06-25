@@ -40,9 +40,9 @@ impl SimpleState for MyState {
         init_sprites(world, &sprites, &dimensions);
     }
 
-    /// Handles appearing events:
-    /// - It quits the game state when the close button is clicked or when the escape key is pressed,  
-    /// - It logs in the console any other key events.
+    /// The following events are handled:
+    /// - The game state is quit when either the close button is clicked or when the escape key is pressed.
+    /// - Any other keypress is simply logged to the console.
     fn handle_event(
         &mut self,
         mut _data: StateData<'_, GameData<'_, '_>>,

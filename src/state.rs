@@ -21,7 +21,7 @@ impl SimpleState for MyState {
     // For more state lifecycle hooks, see:
     // https://book.amethyst.rs/stable/concepts/state.html#life-cycle
     
-    /// Initializes the states with:
+    /// The state is initialized with:
     /// - a camera centered in the middle of the screen.
     /// - 3 sprites places around the center.
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {

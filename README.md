@@ -1,17 +1,9 @@
-<p align="center">
-  <a href="https://amethyst.rs">
-    <img
-        alt="Amethyst"
-        src="https://amethyst.rs/brand/logo-standard.svg"
-        width="60"
-    />
-  </a>
-</p>
-<h1 align="center">
-  Amethyst 2D Starter
-</h1>
+<img src="repo/splash.png" alt="Amethyst 2D starter template" />
 
 This project template will get you from 0 to drawing something on the screen in no time. If you're looking for a more in-depth introduction to the engine, please have a look at [our book](https://book.amethyst.rs/stable/)!
+
+This project template also includes a small example of how to draw UI, see in state.rs for create_ui_example().
+<img src="repo/screenshot.png" alt="Amethyst 2D starter template" height="300px" />
 
 ## Quickstart
 

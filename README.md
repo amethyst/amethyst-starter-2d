@@ -47,7 +47,7 @@ You might need to install some dependencies. Please refer to [this section](http
 
 This project contains the minimum amount of code needed to draw sprites to the screen. Here's a small summary of what you'll find in the source files:
 
-- `resources/display_config.ron`  
+- `config/display_config.ron`  
   Contains the window configuration (size, title).
 
 - `src/main.rs`  

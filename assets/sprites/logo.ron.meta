@@ -1,0 +1,29 @@
+(
+    version: 1,
+    import_hash: Some(7044716979435423605),
+    importer_version: 1,
+    importer_type: "162ede20-6fdd-44c1-8387-8f93983c067c",
+    importer_options: (),
+    importer_state: (
+        id: Some("6990c9e3-641b-46fc-b71a-e10c6db4d479"),
+    ),
+    assets: [
+        (
+            id: "6990c9e3-641b-46fc-b71a-e10c6db4d479",
+            search_tags: [
+                ("file_name", Some("logo.ron")),
+            ],
+            build_pipeline: None,
+            artifact: Some((
+                id: (13679569042886073336),
+                asset_id: "6990c9e3-641b-46fc-b71a-e10c6db4d479",
+                build_deps: [],
+                load_deps: [],
+                compression: None,
+                compressed_size: Some(32),
+                uncompressed_size: Some(32),
+                type_id: "04c60333-c790-4586-aa76-086b19167a04",
+            )),
+        ),
+    ],
+)

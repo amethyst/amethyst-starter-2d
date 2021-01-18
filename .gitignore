@@ -1,4 +1,5 @@
 # Unwanted files
+.assets_db/
 target
 
 # Backup files

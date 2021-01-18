@@ -1,4 +1,5 @@
 use amethyst::{
+    assets::LoaderBundle,
     core::transform::TransformBundle,
     input::InputBundle,
     prelude::*,
@@ -8,7 +9,7 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
-    //ui::{RenderUi, UiBundle},
+    ui::{RenderUi, UiBundle},
     utils::application_root_dir,
 };
 
@@ -27,7 +28,8 @@ fn main() -> amethyst::Result<()> {
     game_data
         .add_bundle(TransformBundle::default())
         .add_bundle(InputBundle::new().with_bindings_from_file(&key_bindings_path)?)
-        //.with_bundle(UiBundle::new())
+        .add_bundle(LoaderBundle)
+        .add_bundle(UiBundle::<u32>::default())
         .add_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
@@ -35,8 +37,8 @@ fn main() -> amethyst::Result<()> {
                         float32: [0.34, 0.36, 0.52, 1.0],
                     }),
                 )
-                .with_plugin(RenderFlat2D::default()),
-            //.with_plugin(RenderUi::default())
+                .with_plugin(RenderFlat2D::default())
+                .with_plugin(RenderUi::default()),
         );
 
     let game = Application::new(resources, state::MyState, game_data)?;

@@ -5,7 +5,7 @@ authors = ["Hilmar Wiegand <me@hwgnd.de>", "Amethyst Foundation <contact@amethys
 edition = "2018"
 
 [dependencies]
-amethyst = {path = "../amethyst"}
+amethyst = { path = "../amethyst", features = ["optional"] }
 log = { version = "0.4.8", features = ["serde"] }
 
 [features]

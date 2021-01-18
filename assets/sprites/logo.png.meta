@@ -1,0 +1,28 @@
+(
+    version: 2,
+    importer_options: (
+        format: None,
+        repr: Srgb,
+        kind: D2,
+        sampler_info: (
+            min_filter: Nearest,
+            mag_filter: Nearest,
+            mip_filter: Nearest,
+            wrap_mode: (Tile, Tile, Tile),
+            lod_bias: (0),
+            lod_range: (
+                start: (0),
+                end: (1000),
+            ),
+            comparison: None,
+            border: (0),
+            normalized: true,
+            anisotropy_clamp: None,
+        ),
+        generate_mips: false,
+        premultiply_alpha: true,
+    ),
+    importer_state: (
+        id: Some("bb7daeee-3a33-4e5a-959a-653cfeb94300"),
+    ),
+)

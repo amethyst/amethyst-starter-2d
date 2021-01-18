@@ -1,13 +1,10 @@
 use amethyst::{
-    assets::{DefaultLoader, Handle, Loader, LoaderBundle, ProcessingQueue},
+    assets::{DefaultLoader, Handle, Loader, ProcessingQueue},
     core::transform::Transform,
     input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, Texture},
-    // ui::{
-    //     Anchor, FontHandle, LineMode, Stretch, TtfFormat, UiButtonBuilder, UiImage, UiText,
-    //     UiTransform,
-    // },
+    renderer::{Camera, SpriteRender, SpriteSheet},
+    ui::{Anchor, LineMode, UiImage, UiLabelBuilder, UiTransform},
     window::ScreenDimensions,
 };
 
@@ -36,16 +33,16 @@ impl SimpleState for MyState {
         // Get the screen dimensions so we can initialize the camera and
         // place our sprites correctly later. We'll clone this since we'll
         // pass the world mutably to the following functions.
-        let dimensions = resources.get::<ScreenDimensions>().unwrap();
+        //let dimensions = resources.get::<ScreenDimensions>().unwrap();
 
         // Place the camera
-        init_camera(world, &dimensions);
+        init_camera(world, resources);
 
         // Load our sprites and display them
         let sprite_sheet_handle = load_sprite_sheet(&resources);
-        init_sprites(world, &dimensions, &sprite_sheet_handle);
+        init_sprites(world, resources, &sprite_sheet_handle);
 
-        //create_ui_example(world);
+        create_ui_example(world, resources);
     }
 
     /// The following events are handled:
@@ -81,7 +78,8 @@ impl SimpleState for MyState {
 ///
 /// The `dimensions` are used to center the camera in the middle
 /// of the screen, as well as make it cover the entire screen.
-fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
+fn init_camera(world: &mut World, resources: &mut Resources) {
+    let dimensions = resources.get::<ScreenDimensions>().unwrap();
     let mut transform = Transform::default();
     transform.set_translation_xyz(dimensions.width() * 0.5, dimensions.height() * 0.5, 1.);
 
@@ -103,11 +101,8 @@ fn load_sprite_sheet(resources: &Resources) -> Handle<SpriteSheet> {
 
 /// Creates an entity in the `world` for each of the provided `sprites`.
 /// They are individually placed around the center of the screen.
-fn init_sprites(
-    world: &mut World,
-    dimensions: &ScreenDimensions,
-    sprite_sheet: &Handle<SpriteSheet>,
-) {
+fn init_sprites(world: &mut World, resources: &mut Resources, sprite_sheet: &Handle<SpriteSheet>) {
+    let dimensions = resources.get::<ScreenDimensions>().unwrap();
     for i in 0..3 {
         let x = (i as f32 - 1.) * 100. + dimensions.width() * 0.5;
         let y = (i as f32 - 1.) * 100. + dimensions.height() * 0.5;
@@ -118,55 +113,46 @@ fn init_sprites(
     }
 }
 
-// /// Creates a simple UI background and a UI text label
-// /// This is the pure code only way to create UI with amethyst.
-// pub fn create_ui_example(world: &mut World) {
-//     // this creates the simple gray background UI element.
-//     let ui_background = world
-//         .create_entity()
-//         .with(UiImage::SolidColor([0.6, 0.1, 0.2, 1.0]))
-//         .with(UiTransform::new(
-//             "".to_string(),
-//             Anchor::TopLeft,
-//             Anchor::TopLeft,
-//             30.0,
-//             -30.,
-//             0.,
-//             250.,
-//             50.,
-//         ))
-//         .build();
+/// Creates a simple UI background and a UI text label
+/// This is the pure code only way to create UI with amethyst.
+pub fn create_ui_example(world: &mut World, resources: &mut Resources) {
+    // background
+    let image = UiImage::SolidColor([0.6, 0.1, 0.2, 1.0]);
+    let transform = UiTransform::new(
+        "".to_string(),
+        Anchor::TopLeft,
+        Anchor::TopLeft,
+        30.0,
+        -30.,
+        0.,
+        250.,
+        50.,
+    );
+    world.push((image, transform));
 
-//     // This simply loads a font from the asset folder and puts it in the world as a resource,
-//     // we also get a ref to the font that we then can pass to the text label we crate later.
-//     let font: FontHandle = world.read_resource::<Loader>().load(
-//         "fonts/Bangers-Regular.ttf",
-//         TtfFormat,
-//         (),
-//         &world.read_resource(),
-//     );
+    // font
+    let font = {
+        resources
+            .get::<DefaultLoader>()
+            .unwrap()
+            .load("fonts/Bangers-Regular.ttf")
+    };
 
-//     // This creates the actual label and places it on the screen.
-//     // Take note of the z position given, this ensures the label gets rendered above the background UI element.
-//     world
-//         .create_entity()
-//         .with(UiTransform::new(
-//             "".to_string(),
-//             Anchor::TopLeft,
-//             Anchor::TopLeft,
-//             40.0,
-//             -40.,
-//             1.,
-//             200.,
-//             50.,
-//         ))
-//         .with(UiText::new(
-//             font,
-//             "Hello, Amethyst UI!".to_string(),
-//             [1., 1., 1., 1.],
-//             30.,
-//             LineMode::Single,
-//             Anchor::TopLeft,
-//         ))
-//         .build();
-// }
+    // label
+    let (_, label) = UiLabelBuilder::<(), u32>::new("Hello, Amethyst UI!".to_string())
+        // general
+        .with_size(200., 50.)
+        .with_position(145., -65.)
+        .with_layer(1.)
+        .with_anchor(Anchor::TopLeft)
+        .with_line_mode(LineMode::Single)
+        // font
+        .with_font(font)
+        .with_font_size(30.)
+        .with_align(Anchor::TopLeft)
+        .with_text_color([1., 1., 1., 1.])
+        // background
+        .build_from_world_and_resources(world, resources);
+
+    world.entry(label.text_entity).unwrap();
+}

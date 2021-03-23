@@ -155,10 +155,10 @@ fn init_sprites(world: &mut World, sprites: &[SpriteRender], dimensions: &Screen
     }
 }
 
-/// Creates a simple UI background and a UI text label
+/// Creates a solid color UI background and a UI text label over it.
 /// This is the pure code only way to create UI with amethyst.
 pub fn create_ui_example(world: &mut World) {
-    // this creates the simple gray background UI element.
+    // Create a pink rectangle to be the background for the UI text label.
     let ui_background = world
         .create_entity()
         .with(UiImage::SolidColor([0.6, 0.1, 0.2, 1.0]))

@@ -1,9 +1,11 @@
 use amethyst::{
+    assets::LoaderBundle,
     core::transform::TransformBundle,
-    input::{InputBundle, StringBindings},
+    input::InputBundle,
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
+        rendy::hal::command::ClearColor,
         types::DefaultBackend,
         RenderingBundle,
     },
@@ -22,23 +24,24 @@ fn main() -> amethyst::Result<()> {
     let display_config = app_root.join("config/display_config.ron");
     let key_bindings_path = app_root.join("config/input.ron");
 
-    let game_data = GameDataBuilder::default()
-        .with_bundle(TransformBundle::new())?
-        .with_bundle(
-            InputBundle::<StringBindings>::new().with_bindings_from_file(&key_bindings_path)?,
-        )?
-        .with_bundle(UiBundle::<StringBindings>::new())?
-        .with_bundle(
+    let mut game_data = DispatcherBuilder::default();
+    game_data
+        .add_bundle(TransformBundle::default())
+        .add_bundle(InputBundle::new().with_bindings_from_file(&key_bindings_path)?)
+        .add_bundle(LoaderBundle)
+        .add_bundle(UiBundle::<u32>::default())
+        .add_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
-                    RenderToWindow::from_config_path(display_config)?
-                        .with_clear([0.34, 0.36, 0.52, 1.0]),
+                    RenderToWindow::from_config_path(display_config)?.with_clear(ClearColor {
+                        float32: [0.34, 0.36, 0.52, 1.0],
+                    }),
                 )
-                .with_plugin(RenderUi::default())
-                .with_plugin(RenderFlat2D::default()),
-        )?;
+                .with_plugin(RenderFlat2D::default())
+                .with_plugin(RenderUi::default()),
+        );
 
-    let mut game = Application::new(resources, state::MyState, game_data)?;
+    let game = Application::new(resources, state::MyState, game_data)?;
     game.run();
 
     Ok(())

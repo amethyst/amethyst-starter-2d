@@ -13,6 +13,10 @@ This project template also includes a small example of how to draw UI, see in st
 git clone https://github.com/amethyst/amethyst-starter-2d.git
 cd amethyst-starter-2d
 ```
+- Update cargo
+```bash
+cargo update -p lexical-core
+```
 
 - Build and run the project
 
